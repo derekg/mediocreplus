@@ -1,4 +1,4 @@
-i<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -25,7 +25,6 @@ i<!DOCTYPE html>
         font: inherit;
         vertical-align: baseline;
     }
-    /* HTML5 display-role reset for older browsers */
     article, aside, details, figcaption, figure, 
     footer, header, hgroup, menu, nav, section {
         display: block;
@@ -48,7 +47,6 @@ i<!DOCTYPE html>
         border-collapse: collapse;
         border-spacing: 0;
     }
-    
     /* Custom Styles */
     body {
         display: flex;
@@ -59,6 +57,13 @@ i<!DOCTYPE html>
         background-color: black;
         color: white;
         text-align: center;
+    }
+    h1 {
+        animation: slide 10s infinite alternate;
+    }
+    @keyframes slide {
+        0% { transform: translateX(-100vw); }
+        100% { transform: translateX(100vw); }
     }
 </style>
 </head>
