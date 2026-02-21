@@ -3,70 +3,674 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDIOCRE PLUS</title>
+
+<!-- OG Tags -->
+<meta property="og:title" content="MEDIOCRE PLUS">
+<meta property="og:description" content="You don't need to be great. You just need to be slightly less dumb than the room. That's the cheat code.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mediocreplus.com">
+<meta property="og:site_name" content="MEDIOCRE PLUS">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MEDIOCRE PLUS">
+<meta name="twitter:description" content="You don't need to be great. You just need to be slightly less dumb than the room. That's the cheat code.">
+
+<!-- General Meta -->
+<meta name="description" content="You don't need to be great. You just need to be slightly less dumb than the room. Competence is rare. Clarity is rarer. Consistency is nearly extinct. Be Mediocre Plus.">
+<meta name="theme-color" content="#000000">
+
+<link rel="icon" href="favicon.ico" type="image/png">
+
 <style>
-    /* Reset CSS */
-    html, body, div, span, applet, object, iframe,
-    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code,
-    del, dfn, em, img, ins, kbd, q, s, samp,
-    small, strike, strong, sub, sup, tt, var,
-    b, u, i, center,
-    dl, dt, dd, ol, ul, li,
-    fieldset, form, label, legend,
-    table, caption, tbody, tfoot, thead, tr, th, td,
-    article, aside, canvas, details, embed, 
-    figure, figcaption, footer, header, hgroup, 
-    menu, nav, output, ruby, section, summary,
-    time, mark, audio, video {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        font-size: 100%;
-        font: inherit;
-        vertical-align: baseline;
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --black: #000;
+    --white: #fff;
+    --gray: #666;
+    --dim: #333;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background: var(--black);
+    color: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hero */
+.hero {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.8s ease forwards;
+}
+
+.hero-sub {
+    margin-top: 1.5rem;
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    color: var(--gray);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+}
+
+.hero-hint {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 0.75rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+    transition: opacity 0.3s;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-    article, aside, details, figcaption, figure, 
-    footer, header, hgroup, menu, nav, section {
-        display: block;
-    }
-    body {
-        line-height: 1;
-    }
-    ol, ul {
-        list-style: none;
-    }
-    blockquote, q {
-        quotes: none;
-    }
-    blockquote:before, blockquote:after,
-    q:before, q:after {
-        content: '';
-        content: none;
-    }
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-    /* Custom Styles */
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        font-family: 'Arial', sans-serif;
-        background-color: black;
-        color: white;
-        text-align: center;
+}
+
+/* Sections */
+.manifesto {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+}
+
+.section {
+    margin-bottom: 6rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section p {
+    font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
+    line-height: 1.65;
+    color: #ccc;
+}
+
+.section .lead {
+    font-size: clamp(1.25rem, 3vw, 1.625rem);
+    line-height: 1.5;
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* Pull quotes */
+.pull {
+    margin-bottom: 6rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.pull.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pull p {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+/* Separator */
+.sep {
+    width: 40px;
+    height: 1px;
+    background: var(--dim);
+    margin: 0 auto 6rem;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.sep.visible {
+    opacity: 1;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    font-size: 0.8125rem;
+    color: var(--dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+/* Game Overlay */
+.game-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.game-overlay.active {
+    display: flex;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.game-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.game-instruction {
+    font-size: 0.8125rem;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.game-canvas-wrap {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+}
+
+.game-canvas-wrap canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.game-result {
+    text-align: center;
+    margin-top: 1.5rem;
+    min-height: 5rem;
+}
+
+.game-result-label {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.game-result-msg {
+    font-size: 0.9375rem;
+    color: #999;
+    line-height: 1.5;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.game-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.game-btn {
+    background: none;
+    border: 1px solid var(--dim);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.game-btn:hover,
+.game-btn:active {
+    border-color: var(--white);
+}
+
+.game-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--gray);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    font-family: inherit;
+    z-index: 1001;
+}
+
+.game-close:hover {
+    color: var(--white);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .manifesto {
+        padding: 0 1.25rem 6rem;
     }
 
-    @keyframes slide {
-        0% { transform: translateX(-100vw); }
-        100% { transform: translateX(100vw); }
+    .section {
+        margin-bottom: 4rem;
     }
+
+    .pull {
+        margin-bottom: 4rem;
+    }
+
+    .sep {
+        margin-bottom: 4rem;
+    }
+
+    .hero-hint {
+        bottom: 1.5rem;
+    }
+
+    .game-overlay {
+        padding: 1rem;
+    }
+}
 </style>
-    <link rel="icon" href="favicon.ico" type="image/png">
 </head>
 <body>
-<h1>MediocrePlus 🥃 DG</h1>
+
+<!-- Hero -->
+<div class="hero" id="hero">
+    <div class="hero-title" id="heroTitle">Mediocre<br>Plus</div>
+    <div class="hero-sub">The cheat code</div>
+    <div class="hero-hint" id="heroHint">scroll</div>
+</div>
+
+<!-- Manifesto -->
+<div class="manifesto">
+
+    <div class="section">
+        <p class="lead">Here's the truth: you don't need to be great. You just need to be slightly less dumb than the room.</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="section">
+        <p>The average is lower than you think. The bar is ankle height and most people still trip over it. Read one book and you're "thoughtful." Do the math and you're "strategic." Follow through and you're "elite."</p>
+    </div>
+
+    <div class="section">
+        <p>The gap between average and impressive is about 90 minutes of real effort.</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="section">
+        <p>Most people don't prepare. They don't think from first principles. They don't check assumptions. They don't finish what they start. They attend meetings like spectators at their own careers.</p>
+    </div>
+
+    <div class="pull">
+        <p>If you show up awake, you're already dangerous.</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="section">
+        <p>Here's the arbitrage: competence is rare. Clarity is rarer. Consistency is nearly extinct. Be Mediocre Plus and you print reputation.</p>
+    </div>
+
+    <div class="section">
+        <p>You don't need to be 10x. Most so-called exceptional leaders are 1.1x operating in rooms that are 0.7x. That small delta becomes mythology.</p>
+    </div>
+
+    <div class="pull">
+        <p>In a mediocre environment, decisiveness looks like courage. Basic math looks like strategy. Calm looks like wisdom. Saying no looks like strength.</p>
+    </div>
+
+    <div class="section">
+        <p>The room sets the legend.</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="pull">
+        <p>+0.5 in a room of &minus;0.5 is "visionary."</p>
+    </div>
+
+    <div class="section">
+        <p>Relative advantage beats absolute brilliance. You're not competing against history's geniuses. You're competing against whoever is in the meeting.</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="section">
+        <p>Stop trying to be legendary. Be slightly sharper. Slightly faster. Slightly clearer. Do it consistently.</p>
+    </div>
+
+    <div class="pull">
+        <p>In a world sliding backward, Mediocre Plus looks unstoppable.</p>
+    </div>
+
+    <div class="section">
+        <p class="lead">That's the cheat code.</p>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">M+ &mdash; DG</div>
+
+<!-- Game Overlay -->
+<div class="game-overlay" id="gameOverlay">
+    <button class="game-close" id="gameClose" aria-label="Close">&times;</button>
+    <div class="game-header">
+        <div class="game-title">Find Your Zone</div>
+        <div class="game-instruction" id="gameInstruction">Tap to stop on M+</div>
+    </div>
+    <div class="game-canvas-wrap">
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <div class="game-result" id="gameResult">
+        <div class="game-result-label" id="resultLabel"></div>
+        <div class="game-result-msg" id="resultMsg"></div>
+    </div>
+    <div class="game-actions" id="gameActions" style="display:none;">
+        <button class="game-btn" id="playAgainBtn">Again</button>
+        <button class="game-btn" id="closeGameBtn">Done</button>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Scroll fade-in
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.section, .pull, .sep').forEach(function(el) {
+        observer.observe(el);
+    });
+
+    // Hide scroll hint on scroll
+    var hint = document.getElementById('heroHint');
+    var hintHidden = false;
+    window.addEventListener('scroll', function() {
+        if (!hintHidden && window.scrollY > 60) {
+            hint.style.opacity = '0';
+            hintHidden = true;
+        }
+    }, { passive: true });
+
+    // Easter egg: tap hero title 5 times
+    var heroTitle = document.getElementById('heroTitle');
+    var tapCount = 0;
+    var tapTimer = null;
+
+    heroTitle.addEventListener('click', function() {
+        tapCount++;
+        clearTimeout(tapTimer);
+        if (tapCount >= 5) {
+            tapCount = 0;
+            openGame();
+        } else {
+            tapTimer = setTimeout(function() { tapCount = 0; }, 2000);
+        }
+    });
+
+    // Game
+    var overlay = document.getElementById('gameOverlay');
+    var canvas = document.getElementById('gameCanvas');
+    var ctx = canvas.getContext('2d');
+    var instruction = document.getElementById('gameInstruction');
+    var resultDiv = document.getElementById('gameResult');
+    var resultLabel = document.getElementById('resultLabel');
+    var resultMsg = document.getElementById('resultMsg');
+    var actions = document.getElementById('gameActions');
+    var playAgainBtn = document.getElementById('playAgainBtn');
+    var closeGameBtn = document.getElementById('closeGameBtn');
+    var closeBtn = document.getElementById('gameClose');
+
+    var linePos = -3;
+    var lineDir = 1;
+    var lineSpeed = 0.04;
+    var running = false;
+    var raf = null;
+    var round = 0;
+    var canvasW, canvasH;
+    var dpr = window.devicePixelRatio || 1;
+
+    function sizeCanvas() {
+        var wrap = canvas.parentElement;
+        canvasW = wrap.clientWidth;
+        canvasH = Math.round(canvasW * 0.55);
+        canvas.width = canvasW * dpr;
+        canvas.height = canvasH * dpr;
+        canvas.style.width = canvasW + 'px';
+        canvas.style.height = canvasH + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function normalPDF(x) {
+        return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+    }
+
+    function xToCanvas(x) {
+        return ((x + 3.5) / 7) * canvasW;
+    }
+
+    function yToCanvas(y) {
+        var maxY = normalPDF(0);
+        var margin = canvasH * 0.12;
+        var plotH = canvasH - margin * 2;
+        return canvasH - margin - (y / maxY) * plotH;
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvasW, canvasH);
+
+        // Zone backgrounds
+        var zones = [
+            { from: -3.5, to: -1, color: 'rgba(255,255,255,0.02)' },
+            { from: -1, to: -0.15, color: 'rgba(255,255,255,0.03)' },
+            { from: -0.15, to: 0.35, color: 'rgba(255,255,255,0.04)' },
+            { from: 0.35, to: 1.2, color: 'rgba(255,255,255,0.08)' },
+            { from: 1.2, to: 3.5, color: 'rgba(255,255,255,0.02)' }
+        ];
+
+        zones.forEach(function(z) {
+            ctx.fillStyle = z.color;
+            var x1 = xToCanvas(z.from);
+            var x2 = xToCanvas(z.to);
+            ctx.fillRect(x1, 0, x2 - x1, canvasH);
+        });
+
+        // Zone labels
+        ctx.font = '600 ' + Math.max(9, canvasW * 0.022) + 'px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign = 'center';
+
+        var labelY = canvasH - canvasH * 0.03;
+        ctx.fillStyle = '#333';
+        ctx.fillText('below', xToCanvas(-2), labelY);
+        ctx.fillText('avg', xToCanvas(0.1), labelY);
+        ctx.fillStyle = '#fff';
+        ctx.fillText('M+', xToCanvas(0.775), labelY);
+        ctx.fillStyle = '#333';
+        ctx.fillText('try-hard', xToCanvas(2.2), labelY);
+
+        // Bell curve
+        ctx.beginPath();
+        ctx.moveTo(xToCanvas(-3.5), yToCanvas(0));
+        for (var x = -3.5; x <= 3.5; x += 0.05) {
+            ctx.lineTo(xToCanvas(x), yToCanvas(normalPDF(x)));
+        }
+        ctx.lineTo(xToCanvas(3.5), yToCanvas(0));
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+        ctx.fill();
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // M+ zone bracket on the curve
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        [0.35, 1.2].forEach(function(x) {
+            ctx.beginPath();
+            ctx.moveTo(xToCanvas(x), yToCanvas(0));
+            ctx.lineTo(xToCanvas(x), yToCanvas(normalPDF(x)));
+            ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        // Sweeping line
+        var lx = xToCanvas(linePos);
+        var ly = yToCanvas(normalPDF(linePos));
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(lx, yToCanvas(0) + 4);
+        ctx.lineTo(lx, ly - 4);
+        ctx.stroke();
+
+        // Dot on curve
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(lx, ly, 4, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function gameLoop() {
+        linePos += lineSpeed * lineDir;
+        if (linePos > 3) { linePos = 3; lineDir = -1; }
+        if (linePos < -3) { linePos = -3; lineDir = 1; }
+        draw();
+        if (running) raf = requestAnimationFrame(gameLoop);
+    }
+
+    function getZone(x) {
+        if (x < -1) return { label: 'Below Average', msg: 'Way below the bar. Even for this game.', win: false };
+        if (x < -0.15) return { label: 'Below Average', msg: 'Wrong side of the curve. You know better.', win: false };
+        if (x < 0.35) return { label: 'Average', msg: 'Perfectly average. So close. But close doesn\'t print reputation.', win: false };
+        if (x < 1.2) return { label: 'MEDIOCRE PLUS', msg: 'The sweet spot. Slightly sharper. Slightly faster. You found it.', win: true };
+        return { label: 'Overachiever', msg: 'Trying too hard. The gap between average and impressive is smaller than you think.', win: false };
+    }
+
+    function stopLine() {
+        if (!running) return;
+        running = false;
+        cancelAnimationFrame(raf);
+        var zone = getZone(linePos);
+        resultLabel.textContent = zone.label;
+        resultLabel.style.color = zone.win ? '#fff' : '#666';
+        resultMsg.textContent = zone.msg;
+        actions.style.display = 'flex';
+        instruction.textContent = zone.win ? 'That\'s the cheat code' : 'Try again';
+    }
+
+    function startRound() {
+        round++;
+        linePos = -3;
+        lineDir = 1;
+        lineSpeed = 0.035 + (round - 1) * 0.005;
+        if (lineSpeed > 0.08) lineSpeed = 0.08;
+        running = true;
+        resultLabel.textContent = '';
+        resultMsg.textContent = '';
+        actions.style.display = 'none';
+        instruction.textContent = 'Tap to stop on M+';
+        raf = requestAnimationFrame(gameLoop);
+    }
+
+    function openGame() {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        round = 0;
+        sizeCanvas();
+        startRound();
+    }
+
+    function closeGame() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        running = false;
+        cancelAnimationFrame(raf);
+    }
+
+    // Game event listeners
+    canvas.addEventListener('click', stopLine);
+    canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        stopLine();
+    }, { passive: false });
+
+    playAgainBtn.addEventListener('click', startRound);
+    closeGameBtn.addEventListener('click', closeGame);
+    closeBtn.addEventListener('click', closeGame);
+
+    window.addEventListener('resize', function() {
+        if (overlay.classList.contains('active')) {
+            sizeCanvas();
+            draw();
+        }
+    });
+})();
+</script>
+
 </body>
 </html>
