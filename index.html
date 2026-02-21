@@ -12,11 +12,16 @@
 <meta property="og:url" content="https://mediocreplus.com">
 <meta property="og:site_name" content="MEDIOCRE PLUS">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://mediocreplus.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bell curve with the M+ zone highlighted — slightly right of average">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="MEDIOCRE PLUS">
 <meta name="twitter:description" content="You don't need to be great. You just need to be slightly less dumb than the room. That's the cheat code.">
+<meta name="twitter:image" content="https://mediocreplus.com/og-image.png">
 
 <!-- General Meta -->
 <meta name="description" content="You don't need to be great. You just need to be slightly less dumb than the room. Competence is rare. Clarity is rarer. Consistency is nearly extinct. Be Mediocre Plus.">
@@ -78,6 +83,9 @@ body {
     opacity: 0;
     transform: translateY(12px);
     animation: fadeUp 0.8s ease forwards;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: default;
 }
 
 .hero-sub {
@@ -226,7 +234,7 @@ body {
 
 .game-canvas-wrap {
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
     position: relative;
 }
 
@@ -461,7 +469,9 @@ body {
     var tapCount = 0;
     var tapTimer = null;
 
-    heroTitle.addEventListener('click', function() {
+    function handleHeroTap(e) {
+        e.preventDefault();
+        e.stopPropagation();
         tapCount++;
         clearTimeout(tapTimer);
         if (tapCount >= 5) {
@@ -470,6 +480,13 @@ body {
         } else {
             tapTimer = setTimeout(function() { tapCount = 0; }, 2000);
         }
+    }
+
+    heroTitle.addEventListener('touchend', handleHeroTap, { passive: false });
+    heroTitle.addEventListener('click', function(e) {
+        // Only fire on non-touch devices (touch devices use touchend above)
+        if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+        handleHeroTap(e);
     });
 
     // Game
@@ -497,7 +514,7 @@ body {
     function sizeCanvas() {
         var wrap = canvas.parentElement;
         canvasW = wrap.clientWidth;
-        canvasH = Math.round(canvasW * 0.55);
+        canvasH = Math.round(canvasW * 0.6);
         canvas.width = canvasW * dpr;
         canvas.height = canvasH * dpr;
         canvas.style.width = canvasW + 'px';
@@ -523,12 +540,14 @@ body {
     function draw() {
         ctx.clearRect(0, 0, canvasW, canvasH);
 
+        var baseY = yToCanvas(0);
+
         // Zone backgrounds
         var zones = [
             { from: -3.5, to: -1, color: 'rgba(255,255,255,0.02)' },
             { from: -1, to: -0.15, color: 'rgba(255,255,255,0.03)' },
             { from: -0.15, to: 0.35, color: 'rgba(255,255,255,0.04)' },
-            { from: 0.35, to: 1.2, color: 'rgba(255,255,255,0.08)' },
+            { from: 0.35, to: 1.2, color: 'rgba(255,255,255,0.10)' },
             { from: 1.2, to: 3.5, color: 'rgba(255,255,255,0.02)' }
         ];
 
@@ -539,60 +558,83 @@ body {
             ctx.fillRect(x1, 0, x2 - x1, canvasH);
         });
 
+        // M+ zone filled area under curve
+        ctx.beginPath();
+        ctx.moveTo(xToCanvas(0.35), baseY);
+        for (var mx = 0.35; mx <= 1.2; mx += 0.03) {
+            ctx.lineTo(xToCanvas(mx), yToCanvas(normalPDF(mx)));
+        }
+        ctx.lineTo(xToCanvas(1.2), baseY);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.fill();
+
         // Zone labels
-        ctx.font = '600 ' + Math.max(9, canvasW * 0.022) + 'px -apple-system, BlinkMacSystemFont, sans-serif';
+        var labelSize = Math.max(11, canvasW * 0.028);
+        ctx.font = '700 ' + labelSize + 'px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'center';
 
-        var labelY = canvasH - canvasH * 0.03;
-        ctx.fillStyle = '#333';
-        ctx.fillText('below', xToCanvas(-2), labelY);
-        ctx.fillText('avg', xToCanvas(0.1), labelY);
+        var labelY = canvasH - canvasH * 0.025;
+        ctx.fillStyle = '#444';
+        ctx.fillText('BELOW', xToCanvas(-2), labelY);
+        ctx.fillText('AVG', xToCanvas(0.1), labelY);
         ctx.fillStyle = '#fff';
         ctx.fillText('M+', xToCanvas(0.775), labelY);
-        ctx.fillStyle = '#333';
-        ctx.fillText('try-hard', xToCanvas(2.2), labelY);
+        ctx.fillStyle = '#444';
+        ctx.fillText('TRY-HARD', xToCanvas(2.2), labelY);
 
         // Bell curve
         ctx.beginPath();
-        ctx.moveTo(xToCanvas(-3.5), yToCanvas(0));
-        for (var x = -3.5; x <= 3.5; x += 0.05) {
+        ctx.moveTo(xToCanvas(-3.5), baseY);
+        for (var x = -3.5; x <= 3.5; x += 0.04) {
             ctx.lineTo(xToCanvas(x), yToCanvas(normalPDF(x)));
         }
-        ctx.lineTo(xToCanvas(3.5), yToCanvas(0));
+        ctx.lineTo(xToCanvas(3.5), baseY);
         ctx.closePath();
-        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+        ctx.fillStyle = 'rgba(255,255,255,0.04)';
         ctx.fill();
-        ctx.strokeStyle = '#444';
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
         ctx.stroke();
 
-        // M+ zone bracket on the curve
-        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        // M+ zone dashed borders
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
         ctx.lineWidth = 1;
-        ctx.setLineDash([3, 3]);
-        [0.35, 1.2].forEach(function(x) {
+        ctx.setLineDash([4, 4]);
+        [0.35, 1.2].forEach(function(bx) {
             ctx.beginPath();
-            ctx.moveTo(xToCanvas(x), yToCanvas(0));
-            ctx.lineTo(xToCanvas(x), yToCanvas(normalPDF(x)));
+            ctx.moveTo(xToCanvas(bx), baseY);
+            ctx.lineTo(xToCanvas(bx), yToCanvas(normalPDF(bx)));
             ctx.stroke();
         });
         ctx.setLineDash([]);
+
+        // Baseline
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(xToCanvas(-3.5), baseY);
+        ctx.lineTo(xToCanvas(3.5), baseY);
+        ctx.stroke();
 
         // Sweeping line
         var lx = xToCanvas(linePos);
         var ly = yToCanvas(normalPDF(linePos));
         ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2.5;
         ctx.beginPath();
-        ctx.moveTo(lx, yToCanvas(0) + 4);
-        ctx.lineTo(lx, ly - 4);
+        ctx.moveTo(lx, baseY + 6);
+        ctx.lineTo(lx, ly - 6);
         ctx.stroke();
 
-        // Dot on curve
+        // Dot on curve (larger, with glow)
+        ctx.shadowColor = '#fff';
+        ctx.shadowBlur = 8;
         ctx.fillStyle = '#fff';
         ctx.beginPath();
-        ctx.arc(lx, ly, 4, 0, Math.PI * 2);
+        ctx.arc(lx, ly, 5, 0, Math.PI * 2);
         ctx.fill();
+        ctx.shadowBlur = 0;
     }
 
     function gameLoop() {
@@ -603,12 +645,43 @@ body {
         if (running) raf = requestAnimationFrame(gameLoop);
     }
 
+    var belowMsgs = [
+        'The bar was on the floor and you found a basement.',
+        'You\'re not even a spectator at your own career yet.',
+        'Somewhere a meeting is safer without you.',
+        'This is the zone where people still Google "how to reply all."'
+    ];
+    var belowLiteMsgs = [
+        'Wrong side of the curve. The room noticed.',
+        'So close to average you can smell the mediocrity. Keep going.',
+        'You read the book but skipped the good chapters.'
+    ];
+    var avgMsgs = [
+        'Painfully average. You attended the meeting but didn\'t speak.',
+        'Dead center. You did the math but forgot to show your work.',
+        'Average. The gap between here and impressive is 90 minutes. You stopped at 89.'
+    ];
+    var mplusMsgs = [
+        'Competence is rare. Clarity is rarer. You just printed both.',
+        'The small delta that becomes mythology. That\'s you right now.',
+        '1.1x in a room of 0.7x. The room just made you a legend.',
+        'Slightly sharper. Slightly faster. Completely unstoppable.'
+    ];
+    var tryhardMsgs = [
+        'Calm down. You\'re not competing against history\'s geniuses.',
+        'Overengineered. Nobody asked for 10x. The delta was right there.',
+        'You went past the sweet spot. Saying no looks like strength. Try it.',
+        'The gap between impressive and exhausting is smaller than you think.'
+    ];
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
     function getZone(x) {
-        if (x < -1) return { label: 'Below Average', msg: 'Way below the bar. Even for this game.', win: false };
-        if (x < -0.15) return { label: 'Below Average', msg: 'Wrong side of the curve. You know better.', win: false };
-        if (x < 0.35) return { label: 'Average', msg: 'Perfectly average. So close. But close doesn\'t print reputation.', win: false };
-        if (x < 1.2) return { label: 'MEDIOCRE PLUS', msg: 'The sweet spot. Slightly sharper. Slightly faster. You found it.', win: true };
-        return { label: 'Overachiever', msg: 'Trying too hard. The gap between average and impressive is smaller than you think.', win: false };
+        if (x < -1) return { label: 'Below Average', msg: pick(belowMsgs), win: false };
+        if (x < -0.15) return { label: 'Below Average', msg: pick(belowLiteMsgs), win: false };
+        if (x < 0.35) return { label: 'Average', msg: pick(avgMsgs), win: false };
+        if (x < 1.2) return { label: 'MEDIOCRE PLUS', msg: pick(mplusMsgs), win: true };
+        return { label: 'Overachiever', msg: pick(tryhardMsgs), win: false };
     }
 
     function stopLine() {
@@ -620,7 +693,7 @@ body {
         resultLabel.style.color = zone.win ? '#fff' : '#666';
         resultMsg.textContent = zone.msg;
         actions.style.display = 'flex';
-        instruction.textContent = zone.win ? 'That\'s the cheat code' : 'Try again';
+        instruction.textContent = zone.win ? 'That\'s the cheat code' : 'Not quite';
     }
 
     function startRound() {
